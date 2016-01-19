@@ -37,8 +37,8 @@
 	\frametitle{Przypomnienie}
     \begin{center}
 		\includegraphics[scale=0.7]{plot_svm_margin_0011} \\
-    	\ding{90} $w^Tx + b = 0$ \\
-        $sgn(w^Tx_{new}+b)= \begin{cases} \displaystyle +1 \\ \displaystyle -1  \end{cases}$
+    	$w^Tx + b = 0$ \\
+        \ding{90} $sgn(w^Tx_{new}+b)= \begin{cases} \displaystyle +1 \\ \displaystyle -1  \end{cases}$
 	\end{center}    
 \end{frame}
 
@@ -61,7 +61,7 @@ Używamy w tym celu algorytmu SMO.
 A można prościej!
 
 Podstawmy \ding{43} do \ding{90} i otrzymamy:
-$( \sum\limits_{i=1}^{m}\alpha_iy^{(i)}x^{(i)})^Tx + b = 0$
+$sgn(( \sum\limits_{i=1}^{m}\alpha_iy^{(i)}x^{(i)})^Tx + b)$
 
 $x$ - to tutaj nowy punkt, który chcielibyśmy sklasifikować, $x^{(i)}$ - kolejne punkty ze zbioru uczącego
 
@@ -93,22 +93,19 @@ $x^{(i)}$ - to są właśnie tytułowe wektory nośne
 \frametitle{Funkcja kosztu.}
 
 \begin{center}
-$\min\limits_{w,b}\frac{1}{2}\|w\|^2+c\sum\limits_{i=1}^n\xi_i$,
-
-pod warunkiem: $y^{(i)}[w^Tx^{(i)}+b] \geqslant 1-\xi_i $
+$\min\limits_{w,b, \xi_i}\frac{1}{2}\|w\|^2+c\sum\limits_{i=1}^m\xi_i$,
 \end{center}
-% * <agnieszka.pocha@uj.edu.pl> 2016-01-16T21:53:55.102Z:
-%
-% co to jest to \xi_i? to to cosik sprytnego było...
-% koszt przydzielenia i-temu punktowi wartości y_i. Dla punktów dobrze sklasyfikowanych jest 0, dla pozostałych - odległość od marginesu
-% ^.
 
+pod warunkami:
 \begin{itemize}
-\item $\xi_i$ - koszt przydzielenia i-temu punktowi wartości $y^{(i)}$. Dla dobrze sklasyfikowanych wynosi 0, dla źle sklasyfikowanych jest równa odległości od marginesu. 
+\item $y^{(i)}[w^Tx^{(i)}+b] \geqslant 1-\xi_i $
+\item $\xi_i \geqslant 0$
+\end{itemize}
+gdzie:
+\begin{itemize}
+\item $\xi_i$ - koszt przydzielenia i-temu punktowi wartości $y^{(i)}$. Dla dobrze sklasyfikowanych punktów leżących poza marginesem wynosi 0, dla pozostałych jest równa odległości od marginesu. 
 
-\item $c$ - stała regularyzacji, przypisując jej konkretną wartość określamy, jak bardzo chcemy karać klasyfikator za błędną klasyfikację.
-
-\item czynnik $\|w\|^2$ zapobiega overfittingowi - każe klasyfikator za zbyt duże wagi
+\item $c>0$ - stała regularyzacji, przypisując jej konkretną wartość określamy, jak bardzo chcemy karać klasyfikator za błędną klasyfikację.
 \end{itemize}
 
 
@@ -168,7 +165,7 @@ Wymiar V-C to maksymalna liczba punktów, taka że A wygra niezależnie od poety
 
 \begin{frame}
 \frametitle{Wymiar VC. Do czego się przydaje?}
-$P(test\_error \leqslant training\_error + \sqrt[]{\frac{h(\log{(\frac{2N}{h})}+1)-\log{\frac{\eta}{4}}}{N}}) = 1-\eta$
+$P(test\_error \leqslant training\_error + \sqrt[]{\frac{h(\log{(\frac{2N}{h})}+1)-\log{\frac{\eta}{4}}}{N}}) \geqslant 1-\eta$
 
 \begin{itemize}
 \item $test\_error$ - błąd na zbiorze testowym
@@ -219,7 +216,7 @@ Wyliczenie $\phi(x)$ może być trudne/czasochłonne/niemożliwe, ale okazuje si
 
 \begin{frame}
 \frametitle{Kernel trick. Jak to robimy?}
-Wiemy, że $<\phi(x), \phi(y)>$, to jest po prostu $\phi(x)^T\phi(y)$. Definiujemy funkcję (nazywamy ją kernelem):
+Wiemy, że $<\phi(x), \phi(y)>$, to jest po prostu $\phi(x)^T\phi(y)$. Definiujemy funkcję (nazywamy ją jądrem (ang. kernel)):
 \begin{center}
 $K(x, y):=\phi(x)^T \phi(y)$
 \end{center}
@@ -234,9 +231,9 @@ $\sum\limits_i \alpha_i y^{(i)}K(x^{(i)}, x)+b$
 Pomysł jest taki, aby w ogóle nie definiować $\phi(x)$, tylko zdefiniować od razu $K(x, y)$.
 Powstaje pytanie: jak powinna wyglądać funkcja $K$?
 
-Chcielibyśmy, by $K$ było pewną miarą "podobieństwa", tzn. jeżeli $\phi(x)$ i $\phi(y)$ leżą blisko siebie (są podobne), to $K(x, y)$ powinno być duże, natomiast jeżeli $\phi(x)$ i $\phi(y)$ leżą daleko od siebie (są niemalże ortogonalne, są niepodobne), to $K(x, y)$ powinno być bliskie $0$.
+Chcielibyśmy, by $K$ było pewną miarą "podobieństwa", tzn. jeżeli $\phi(x)$ i $\phi(y)$ leżą blisko siebie (są podobne), to $K(x, y)$ powinno być duże, natomiast jeżeli $\phi(x)$ i $\phi(y)$ leżą daleko od siebie (są niepodobne), to $K(x, y)$ powinno być bliskie $0$.
 
-Tak jest np. gdy mamy do czynienia z kernelem gaussowskim:
+Tak jest np. gdy mamy do czynienia z jądrem gaussowskim:
 \begin{center}
 $K(x, y)=exp(-\frac{\|x-y\|^2}{2\sigma^2})$
 \end{center}
@@ -249,7 +246,7 @@ Zdefiniujmy macierz $\mathscr{K}$ w taki sposób:
 \begin{center}
 $\forall i, j  \hspace{0.15cm} \mathscr{K}_{ij}=K(x^{(i)}, x^{(j)})$
 \end{center}
-Jeżeli $\mathscr{K}$ jest positive semidefinite (półdodatnio określona?) oraz symetryczna, to $K$ jest kernelem (tzn. istnieje $\phi(x)$, takie że $\forall x, y \hspace{0.15cm} \phi(x)^T\phi(y) = K(x, y)$).
+Jeżeli $\mathscr{K}$ jest nieujemnie określona oraz symetryczna, to $K$ jest jądrem (tzn. istnieje $\phi(x)$, takie że $\forall x, y \hspace{0.15cm} <\phi(x),\phi(y)> = K(x, y)$).
 \end{frame}
 
 \begin{frame}
@@ -352,7 +349,7 @@ Dlaczego SVMy są fajne?
 \begin{center}
 Dziękuję za uwagę.
 
-Slajdy i kody można znaleźć pod \url{github/Lamiane/slajdy/semMatSts}
+Slajdy i kody można znaleźć pod \url{https://github.com/Lamiane/presentations/tree/master/2016-01-SVMs_sem_matematyka_stosowana}
 \end{center}
 \end{frame}
 
