@@ -1,25 +1,79 @@
-\documentclass{beamer}
-%
-% Choose how your presentation looks.
-%
-% For more themes, color themes and font themes, see:
-% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
-%
-\mode<presentation>
-{
-  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
-  \usecolortheme{default} % or try albatross, beaver, crane, ...
-  \usefonttheme{default}  % or try serif, structurebold, ...
-  \setbeamertemplate{navigation symbols}{}
-  \setbeamertemplate{caption}[numbered]
-} 
+\documentclass[15pt]{beamer}
 
+\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{tikz}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{polski}
+\usepackage{amsthm}
 \usepackage{wrapfig}
 \usepackage{ amssymb }
 \usepackage{ dsfont }
 \usepackage{ fontawesome }
+\usepackage{ bclogo}
+
+\newtheorem{hypothesis}[theorem]{Hipoteza}
+
+\useoutertheme{infolines}
+\setbeamertemplate{note page}[plain]
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+% === Minimal beamer === %
+\setbeamertemplate{frametitle}
+  {\begin{centering}\smallskip
+   \insertframetitle\par
+   \smallskip\end{centering}
+   }
+
+% Define some colors:
+\definecolor{DarkFern}{HTML}{407428}
+\definecolor{DarkCharcoal}{HTML}{4D4944}
+\colorlet{Fern}{DarkFern!85!white}
+\colorlet{Charcoal}{DarkCharcoal!85!white}
+\colorlet{LightCharcoal}{Charcoal!50!white}
+\colorlet{AlertColor}{orange!80!black}
+\colorlet{DarkRed}{red!70!black}
+\colorlet{AlertColor}{red!70!black}
+\colorlet{DarkBlue}{blue!70!black}
+\colorlet{DarkGreen}{green!70!black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+
+% Use the colors:
+\setbeamercolor{title}{fg=DarkRed}
+\setbeamercolor{frametitle}{fg=DarkRed}
+\setbeamercolor{normal text}{fg=Charcoal}
+\setbeamercolor{block title}{fg=black,bg=Fern!25!white}
+\setbeamercolor{block body}{fg=black,bg=Fern!25!white}
+\setbeamercolor{alerted text}{fg=AlertColor}
+\setbeamercolor{itemize item}{fg=Charcoal}
+
+\usetikzlibrary{shapes.misc}
+
+\tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
+%default radius will be 1pt. 
+cross/.default={1pt}}
+
+\usebackgroundtemplate{
+\begin{tikzpicture}[remember picture, overlay]
+  \node [above=0.37cm, left=1.0cm] at (current page.south east)
+     {  
+     \includegraphics[width=0.15\paperwidth,height=0.15\paperheight,keepaspectratio]{fig/gmum.jpg}
+     };
+     \node [above=0.31cm, left=0.1cm] at (current page.south east){
+    \insertframenumber/\inserttotalframenumber     
+     };  
+\end{tikzpicture}
+}
 
 \title[ICLR zapłata]{Selected ICLR 2017 Papers}
 \author{Agnieszka Pocha}
@@ -33,20 +87,20 @@
 \end{frame}
 
 % Uncomment these lines for an automatically generated outline.
-\begin{frame}{Outline}
- \tableofcontents
-\end{frame}
+% \begin{frame}{Outline}
+%  \tableofcontents
+% \end{frame}
 
-\section{Designing Neural Network Architectures using Reinforcement Learning}
+% \section{Designing Neural Network Architectures using Reinforcement Learning}
 
 
 \begin{frame}{Designing Neural Network Architectures using Reinforcement Learning}
   Bowen Baker, Otkrist Gupta, Nikhil Naik, Ramesh Raskar
 
-  \vspace{0.1in}
+  \vspace{0.05in}
 
   \begin{block}{Abstract}
-  Designing NN architectures is slow and laborious. We would like to have an automatic and successful method to do it for us.\vspace{0.05in}
+  Designing NN architectures is slow and laborious. We would like to have an automatic and successful method to do it for us.\vspace{0.04in}
   Authors introduce MetaQNN - a \textbf{reinforcement learning method} based on \textbf{Q-learnig} algorithm that finds highly performing architectures.\vspace{0.05in}
   Their models:
   \begin{itemize}
@@ -61,8 +115,9 @@
 
 
 \begin{frame}{Shortly}
-  \includegraphics[width=0.9\textwidth]{model.png}
+\centering \includegraphics[width=0.7\textwidth]{model.png}
 
+\raggedright
   Learning agent sequentially chooses CNN layers using \textbf{Q-learnig} with an \textbf{$\epsilon$-greedy exploration strategy} and \textbf{experience replay}.
 \end{frame}
 
@@ -136,7 +191,7 @@
 
 \begin{frame}{Experience replay}
   Use single experience multiple times for an iterative update.
-  \includegraphics[width=\textwidth]{reuse.jpg}\\
+  \includegraphics[width=0.9\textwidth]{reuse.jpg}\\
   \begin{tiny}
   \url{https://www.shutterstock.com/image-photo/empty-toilet-paper-roll-recycled-seedling-134967662?src=ijY4nrNlx43dUDT2n_Cjsw-1-4}
   \end{tiny}
@@ -144,8 +199,10 @@
 
 
 \begin{frame}{Shortly (again)}
-  \includegraphics[width=0.9\textwidth]{model.png}
+  \centering
+  \includegraphics[width=0.7\textwidth]{model.png}
 
+  \raggedright
   Learning agent sequentially chooses CNN layers using \textbf{Q-learnig} with an \textbf{$\epsilon$-greedy exploration strategy} and \textbf{experience replay}.
 \end{frame}
 
@@ -166,22 +223,22 @@
 
 
 \begin{frame}{Again same picture but now we should understand it completely}
-  \begin{center}
-  \includegraphics[width=0.7\textwidth]{model.png}  
-  \end{center}
+  \centering
+  \includegraphics[width=0.65\textwidth]{model.png}  
   
+  \raggedright
   Learning agent sequentially chooses CNN layers using \textbf{Q-learnig} with an \textbf{$\epsilon$-greedy exploration strategy} and \textbf{experience replay}.
 \end{frame}
 
 \begin{frame}{Experiments}
 It grows! It means that the architectures chosen greedily/later (exploitation) are better than those randomly sampled (exploration) - the agent has learned something.
-\includegraphics[width=\textwidth]{experiments.png}
+\includegraphics[width=0.88\textwidth]{experiments.png}
 \end{frame}
 
 \begin{frame}{Experiments}
 It learns! It means that the architectures chosen greedily/later (exploitation) are better than those randomly sampled (exploration) - the agent has learned something.
 \begin{center}
-\includegraphics[width=0.9\textwidth]{exp2.png}
+\includegraphics[width=0.63\textwidth]{exp2.png}
 \end{center}
 \end{frame}
 
@@ -197,9 +254,9 @@ After short training all those architectures 10 best were chosen and well tuned.
 \begin{frame}{Results}
   \begin{itemize}
   \item compare well with state-of-the-art models
-  \includegraphics[width=0.9\textwidth]{state_art.png}
+  \includegraphics[width=0.86\textwidth]{state_art.png}
   \item are suitable for transfer learning
-  \includegraphics[width=0.9\textwidth]{transfer.png}
+  \includegraphics[width=0.85\textwidth]{transfer.png}
   \end{itemize}
 \end{frame}
 
@@ -211,12 +268,12 @@ After short training all those architectures 10 best were chosen and well tuned.
 \end{frame}
 
 
-
-
 \begin{frame}{My problem with this paper}
-\includegraphics[width=0.85\textwidth]{model.png}
-
-Late architectures (best performing) might not be chosen for replay i.e. not used for  training at all while early architectures (randomly performing) will be overrepresented.
+  \centering
+  \includegraphics[width=0.7\textwidth]{model.png}
+  
+  \raggedright
+  Late architectures (best performing) might not be chosen for replay i.e. not used for  training at all while early architectures (randomly performing) will be overrepresented.
 \end{frame}
 
 \begin{frame}{My problem with this paper}
@@ -241,13 +298,195 @@ Late architectures (best performing) might not be chosen for replay i.e. not use
 
 
 \begin{frame}{More}
-\begin{center}
-\includegraphics[width=0.8\textwidth]{bowen.png}
-\end{center}
-\begin{itemize}
-\item arXiv 1611.02167 \url{https://arxiv.org/abs/1611.02167}
-\item GitHub \url{https://bowenbaker.github.io/metaqnn/}
-\end{itemize}
+  \centering
+  \includegraphics[width=0.8\textwidth]{bowen.png}
+
+  \begin{itemize}
+  \item arXiv 1611.02167 \url{https://arxiv.org/abs/1611.02167}
+  \item GitHub \url{https://bowenbaker.github.io/metaqnn/}
+  \end{itemize}
+\end{frame}
+
+% \section{Adversarial Examples in the Physical World}
+
+
+\begin{frame}{Adversarial Examples in the Physical World}
+  Alexey Kurakin, Ian J. Goodfellow, Samy Bengio
+
+  \vspace{0.1in}
+
+  \begin{block}{Abstract}
+  An adversarial example is a sample of input data which has been modified very slightly in a way that is intended to cause a machine learning classifier to missclassify it. Adversarial examples pose security concerns because they could be used to perform attack on machine learning systems.
+  \vskip0.1in
+  \begin{enumerate}
+  \item Authors found that a large fraction of adversarial examples generated for the original model remain missclassified even when perceived through a camera or altered with another transformation.
+  \item They also demonstrated that the physical adversarial sample constructed for one model would fool another model.
+  \end{enumerate}
+  
+  \end{block}
+\end{frame}
+
+
+\begin{frame}{Adversarial Examples}
+  \begin{center}
+  \includegraphics[width=0.75\linewidth]{adversarial.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Setup}
+  \begin{center}
+  \includegraphics[width=0.9\linewidth]{photo.png}
+  \vskip0.1in
+  \begin{huge}
+  \bcquestion
+  \end{huge}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Actual outcome}
+  \begin{center}
+  \includegraphics[width=\linewidth]{washer.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Methods for generating adversarial examples}
+ \begin{itemize}
+ \item \textbf{Fast method}
+ \vskip0.1in
+ \begin{center}
+ $\textbf{X}^{adv} = \textbf{X} + \epsilon sign(\nabla_XJ(\textbf{X}, y_{true}))$
+ \end{center}
+ \item \textbf{Basic iterative method}
+ \vskip0.1in
+ \begin{center}
+ $\textbf{X}^{adv}_0 = \textbf{X}, \textbf{X}^{adv}_{N+1} = Clip_{X, \epsilon}\{\textbf{X}^{adv}_N + \alpha sign(\nabla_XJ(\textbf{X}^{adv}_N, y_{true}))\}$
+ \end{center}
+ \item \textbf{Iterative least-likely class method}
+ \vskip0.1in
+ \begin{center}
+ $\textbf{X}^{adv}_0 = \textbf{X}, \textbf{X}^{adv}_{N+1} = Clip_{X, \epsilon}\{\textbf{X}^{adv}_N - \alpha sign(\nabla_XJ(\textbf{X}^{adv}_N, y_{LL}))\}$
+ \end{center}
+ \end{itemize}
+
+  \vskip0.1in
+  where $J(\cdot, \cdot)$ is a cross-entropy cost function of the neural network, $Clip_{X, \epsilon}\{\textbf{X}'\}$ is a function which performs per-pixel clipping of the image $\textbf{X}'$ so that the result will be in the neighbourhood of the source image $\textbf{X}$, $y_{LL}$ is the least likely class.
+\end{frame}
+
+\begin{frame}{Methods for generating adversarial examples}
+  \centering
+  \includegraphics[width=\linewidth]{fig2.png}
+  
+  \raggedright
+  None of these methods guarantees that generated image will be misclassified.
+\end{frame}
+
+\begin{frame}{What is the difference between those methods?}
+  \begin{center}
+  \includegraphics[width=0.55\linewidth]{different_methods.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Okay, but what doeas it mean: epsilon = 32?}
+  \begin{center}
+  \includegraphics[width=0.8\linewidth]{epsilon.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Experiments}
+  \textbf{Destruction rate}
+  \vskip0.1in
+  Let $n$ be number of images used to compute the destruction rate, $\textbf{X}^k$ an image from dataset, $y^k_{true}$ - true class of $k-th$ image, $\textbf{X}^k_{adv}$ - the corresponding adversarial image, $T(\cdot)$ - an arbitrary image transformation, $C(\textbf{X}, y)$ - an indicator function:
+
+  \begin{center}
+  $C(\textbf{X}, y) = \begin{cases} \displaystyle {1} & \mbox{if image \textbf{X} is classified as y}, \\[2ex] \displaystyle {0}& \mbox{otherwise } , \end{cases}$
+  \end{center}
+
+  Then, the destruction rate is defined as:
+
+  \begin{center}
+  $d = \frac{\sum^n_{k=1}C(\textbf{X}^k, y^k_{true})\overline{C(\textbf{X}^k_{adv}, y^k_{true})}C(T(\textbf{X}^k_{adv}),  y^k_{true})}{\sum^n_{k=1}C(\textbf{X}^k, y^k_{true})\overline{C(\textbf{X}^k_{adv}, y^k_{true})}}$
+  \end{center}
+
+  where $\overline{C(\textbf{X}, y)}$ is a binary negation.
+\end{frame}
+
+
+\begin{frame}{Experiments}
+\textbf{Average case} - images used to calculate measures were chosen randomly.
+\vskip0.1in
+\textbf{Prefiltered case} (aggresive attack (stop this violence!)) - images used to calculate measures were chosen in such a way that all clean images were classified correctly and all adversarial images were classified incorrectly.
+\end{frame}
+
+
+\begin{frame}{Results}
+  \begin{enumerate}
+  \item Authors found that a large fraction of adversarial examples generated for the original model remain missclassified even when perceived through a camera or altered with another transformation.
+  \item They also demonstrated that the physical adversarial sample constructed for one model would fool another model.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Results}
+  \begin{center}
+  \textbf{Average case accuracy}
+  \vskip0.1in
+  \includegraphics[width=\linewidth]{tab1.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Results}
+  \begin{center}
+  \textbf{Prefiltered case accuracy}
+  \vskip0.1in
+  \includegraphics[width=0.9\linewidth]{tab2.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Results}
+  \begin{center}
+  \textbf{Destruction rate}
+  \vskip0.1in
+  \includegraphics[width=0.65\linewidth]{tab3.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{What about other transformations?}
+  \begin{center}
+  \includegraphics[width=0.55\linewidth]{other_transformations.png}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}{Adversarial examples transfer}
+  \begin{center}
+  \includegraphics[width=0.9\linewidth]{washer.png}
+  \end{center}
+  
+  Adversarial exmaples constructed for pre-trained ImageNet Inception classifier (Szegedy et. al, 2015) fool the TensorFlow camera demo.
+\end{frame}
+
+
+\begin{frame}{More}
+  \begin{itemize}
+  \item arXiv 1607.02533 \url{https://arxiv.org/abs/1607.02533}
+  \item 
+  \begin{huge}
+  \faYoutube
+  \end{huge}
+  \hspace{0.1in}
+  \url{https://www.youtube.com/watch?v=RyEhb-KquEY}
+  \item 
+  \begin{huge}
+  \faYoutube
+  \end{huge}
+  \hspace{0.1in}
+  \url{  https://www.youtube.com/watch?v=zQ_uMenoBCk}
+  \end{itemize}
 \end{frame}
 
 \end{document}
